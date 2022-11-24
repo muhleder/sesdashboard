@@ -1,15 +1,18 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        default_connection: pgsql
+        connections:
+            mysql:
+                url: "%env(resolve:DATABASE_URL)%"
+                driver: "pdo_mysql"
+            pgsql:
+                url: "%env(resolve:DATABASE_URL)%"
+                driver: "pdo_pgsql"
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '5.7'
     orm:
-        dql:
-            string_functions:
-                DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
-                CONVERT_TZ: DoctrineExtensions\Query\Mysql\ConvertTz
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
@@ -17,6 +20,6 @@ doctrine:
             App:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
+                dir: "%kernel.project_dir%/src/Entity"
                 prefix: 'App\Entity'
                 alias: App
