@@ -38,6 +38,8 @@ final class Version20221123095155 extends AbstractMigration
         $this->addSql('ALTER TABLE email ADD CONSTRAINT FK_E7927C74166D1F9C FOREIGN KEY (project_id) REFERENCES project (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE email_event ADD CONSTRAINT FK_A6E34B28A832C1C9 FOREIGN KEY (email_id) REFERENCES email (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE project ADD CONSTRAINT FK_2FB3D0EEA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE INDEX IDX_E7927C74166D1F9C537A1329 ON email (project_id, message_id) USING HASH');
+
     }
 
     public function down(Schema $schema) : void
@@ -57,5 +59,6 @@ final class Version20221123095155 extends AbstractMigration
         $this->addSql('DROP TABLE email_event');
         $this->addSql('DROP TABLE project');
         $this->addSql('DROP TABLE "user"');
+        $this->addSql('DROP INDEX IDX_E7927C74166D1F9C537A1329 ON email');
     }
 }
